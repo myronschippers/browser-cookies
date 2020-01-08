@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
+import { getCookie, setCookie } from '../../services/cookies.service';
 
 class App extends Component {
     state = {
         enteredCreature: '',
         favoriteCreature: '',
+    }
+    componentDidMount() {
+        const favoriteCreature = getCookie('favoriteCreature');
+        console.log('Favorite: ', favoriteCreature);
+        this.setState({
+            favoriteCreature,
+        });
     }
     
     changeFavoriteAnimal = (event) => {
@@ -14,17 +22,12 @@ class App extends Component {
     }
 
     saveCreature = (event) => {
-        // const creature = this.state.enteredCreature;
+        const creature = this.state.enteredCreature;
+        setCookie('favoriteCreature', creature);
 
         this.setState({
             enteredCreature: '',
-            // favoriteCreature: creature,
-        });
-    }
-
-    editCreature = (event) => {
-        this.setState({
-            isEditable: true,
+            favoriteCreature: creature,
         });
     }
 

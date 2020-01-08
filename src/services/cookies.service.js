@@ -11,6 +11,7 @@ const rawCookies = () => {
 
 const setCookie = (cookieName, cookieValue) => {
     document.cookie = `${cookieName}=${cookieValue}`;
+    // document.cookie = cookieName + '=' + cookieValue;
 };
 
 export {
