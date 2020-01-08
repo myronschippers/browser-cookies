@@ -44,7 +44,18 @@ class App extends Component {
                     {myCreature}
                 </div>
 
-                {editRegion}
+                <div className="container">
+                    <label className="formField">
+                        <div>Favorite Fantastic Creature:</div>
+                        <input
+                            type="text"
+                            placeholder="Animal"
+                            value={this.state.enteredCreature}
+                            onChange={this.changeFavoriteAnimal}
+                        />
+                    </label>
+                    <button onClick={this.saveCreature}>Save My Creature</button>
+                </div>
             </div>
         );
     }
