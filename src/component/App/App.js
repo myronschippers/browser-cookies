@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import { setCookie, getCookie } from '../../services/cookies';
-import axios from 'axios';
 
 class App extends Component {
     state = {
         enteredCreature: '',
         favoriteCreature: '',
-        isEditable: true,
-    }
-
-    componentDidMount() {
-        this.getCreatures();
     }
     
     changeFavoriteAnimal = (event) => {
@@ -21,9 +14,11 @@ class App extends Component {
     }
 
     saveCreature = (event) => {
-        this.postCreature(this.state.enteredCreature);
+        // const creature = this.state.enteredCreature;
+
         this.setState({
             enteredCreature: '',
+            // favoriteCreature: creature,
         });
     }
 
@@ -33,66 +28,13 @@ class App extends Component {
         });
     }
 
-    //
-    // API Calls
-    // ------------------------------------------------------------
-
-    getCreatures() {
-        axios.get('/api/creature')
-            .then((response) => {
-                console.log(response);
-                let isEditable = true;
-                if (response.data.fantasticCreature) {
-                    isEditable = false;
-                }
-                this.setState({
-                    favoriteCreature: response.data.fantasticCreature,
-                    isEditable,
-                });
-            })
-            .catch((err) => {
-                console.log('GET Error: ', err);
-            });
-    }
-
-    postCreature(creatureName) {
-        axios.post('/api/creature', {
-            fantasticCreature: creatureName
-        })
-            .then((response) => {
-                this.getCreatures();
-            })
-            .catch((err) => {
-                console.log('POST Error: ', err);
-            });
-    }
-
     render() {
-        let editRegion = <div className="container">
-            <label className="formField">
-                <div>Favorite Fantastic Creature:</div>
-                <input
-                    type="text"
-                    placeholder="Animal"
-                    value={this.state.enteredCreature}
-                    onChange={this.changeFavoriteAnimal}
-                />
-            </label>
-            <button onClick={this.saveCreature}>Save My Creature</button>
-        </div>;
         let myCreature = <h3>You have not chosen a Favorite Creature</h3>;
 
         if (this.state.favoriteCreature != null
             && this.state.favoriteCreature.length > 0
         ) {
             myCreature = <h3>Your Favorite Creature: {this.state.favoriteCreature}</h3>
-        }
-
-        if (!this.state.isEditable) {
-            editRegion = <div className="container">
-                {this.state.favoriteCreature} <button onClick={this.editCreature}>EDIT</button>
-            </div>
-
         }
 
         return (
